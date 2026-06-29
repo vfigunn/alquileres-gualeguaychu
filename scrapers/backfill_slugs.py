@@ -62,14 +62,17 @@ def main():
     props = r.json()
     print(f"   {len(props)} propiedades encontradas")
 
-    # Agrupar slugs existentes para evitar duplicados
+    # Consultar slugs ya existentes para evitar duplicados
     r2 = requests.get(
-        f"{SUPABASE_URL}/rest/v1/properties?select=slug&not_null=slug",
+        f"{SUPABASE_URL}/rest/v1/properties?select=slug",
         headers=HEADERS,
         timeout=30,
     )
-    r2.raise_for_status()
-    existing_slugs = {row["slug"] for row in r2.json() if row.get("slug")}
+    if r2.status_code >= 400:
+        print(f"   ⚠️  No se pudieron obtener slugs existentes: {r2.status_code}")
+        existing_slugs = set()
+    else:
+        existing_slugs = {row["slug"] for row in r2.json() if row.get("slug")}
     print(f"   {len(existing_slugs)} slugs ya existentes")
 
     updated = 0
