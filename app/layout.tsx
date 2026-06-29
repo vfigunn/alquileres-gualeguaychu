@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import TopNavBar from "@/components/TopNavBar";
 import "./globals.css";
 
@@ -181,6 +183,12 @@ export default function RootLayout({
             </div>
           </div>
         </footer>
+
+        {/* Vercel Web Analytics */}
+        <Analytics />
+
+        {/* Vercel Speed Insights */}
+        <SpeedInsights />
       </body>
     </html>
   );
