@@ -22,11 +22,17 @@ HEADERS = {
 
 
 def generate_slug(title: str | None, address: str | None, max_length: int = 100) -> str:
+    title_str = (title or "").strip().lower()
+    address_str = (address or "").strip().lower()
+
+    if address_str and address_str in title_str:
+        address_str = ""
+
     parts: list[str] = []
-    if title and title.strip():
-        parts.append(title.strip())
-    if address and address.strip():
-        parts.append(address.strip())
+    if title_str:
+        parts.append(title_str)
+    if address_str:
+        parts.append(address_str)
     if not parts:
         return "propiedad"
 
