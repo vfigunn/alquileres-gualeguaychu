@@ -19,6 +19,7 @@ const VALID_TYPES: PropertyType[] = [
 function normalizeProperty(row: Record<string, unknown>): Property {
   return {
     id: row.id as number,
+    slug: (row.slug as string | null) ?? null,
     source: row.source as string,
     source_id: row.source_id as string,
     url: row.url as string,

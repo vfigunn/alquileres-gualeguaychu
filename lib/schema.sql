@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS sources (
 -- NOTHING y luego UPDATE de los campos mutables.
 CREATE TABLE IF NOT EXISTS properties (
   id              INTEGER PRIMARY KEY AUTOINCREMENT,
+  slug            TEXT UNIQUE,
   source          TEXT NOT NULL,                -- FK sources.slug
   source_id       TEXT NOT NULL,                -- ID en el sitio original
   url             TEXT NOT NULL,                -- URL de la ficha original

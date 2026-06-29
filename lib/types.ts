@@ -15,6 +15,7 @@ export type Currency = "ARS" | "USD";
 /** Entidad tal como vive en la DB y en el JSON estático que sirve el sitio. */
 export interface Property {
   id: number;
+  slug: string | null;
   source: string;
   source_id: string;
   url: string;

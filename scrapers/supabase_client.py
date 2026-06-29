@@ -25,6 +25,8 @@ from typing import Optional
 
 import requests
 
+from .slugs import generate_slug
+
 
 class SupabaseError(RuntimeError):
     pass
@@ -84,31 +86,37 @@ def ensure_source(slug: str, name: str, url: str) -> None:
 def upsert_property(prop_dict: dict) -> str:
     """Inserta o actualiza una propiedad en Supabase.
 
-    Usa la capacidad de upsert de PostgREST: POST con
-    ?on_conflict=source,source_id y Prefer: resolution=merge-duplicates.
-
     `prop_dict` es el dict de RawProperty.to_db_row() (ya con images_json,
     features_json, source, source_id, url, etc.).
 
-    Devuelve 'new' | 'updated' (aproximado: si la propiedad no existía
-    es new, si existía es updated — PostgREST no lo informa directamente,
-    pero podemos inferirlo con un GET previo si hace falta).
+    En INSERT genera un slug único a partir de title + address.
+    En UPDATE no modifica el slug (URLs estables).
+
+    Devuelve 'new' | 'updated'.
     """
     # Verificar si ya existe para saber si es new o updated
     r = requests.get(
         f"{_url()}/rest/v1/properties"
         f"?source=eq.{prop_dict['source']}"
         f"&source_id=eq.{prop_dict['source_id']}"
-        f"&select=id",
+        f"&select=id,slug",
         headers=_headers(),
         timeout=15,
     )
     r.raise_for_status()
-    is_new = len(r.json()) == 0
+    existing_rows = r.json()
+    is_new = len(existing_rows) == 0
 
     if is_new:
-        # INSERT: first_seen_at y last_seen_at los pone Supabase con DEFAULT NOW()
+        # INSERT: generar slug y asegurar unicidad
+        base_slug = generate_slug(
+            prop_dict.get("title"),
+            prop_dict.get("address"),
+        )
+        slug = _ensure_unique_slug(base_slug)
+
         body = {k: v for k, v in prop_dict.items() if v is not None}
+        body["slug"] = slug
         r = requests.post(
             f"{_url()}/rest/v1/properties",
             headers={**_headers(), "Prefer": "return=minimal"},
@@ -116,7 +124,7 @@ def upsert_property(prop_dict: dict) -> str:
             timeout=15,
         )
     else:
-        # UPDATE: solo campos mutables, sin tocar first_seen_at
+        # UPDATE: solo campos mutables, sin tocar first_seen_at ni slug
         mutable = {
             "url": prop_dict.get("url"),
             "title": prop_dict.get("title"),
@@ -141,7 +149,6 @@ def upsert_property(prop_dict: dict) -> str:
             "published_at": prop_dict.get("published_at"),
             "last_seen_at": datetime_now_iso(),
         }
-        # No enviar None — PostgREST lo interpreta como "poner NULL"
         body = {k: v for k, v in mutable.items() if v is not None}
         r = requests.patch(
             f"{_url()}/rest/v1/properties"
@@ -159,6 +166,28 @@ def upsert_property(prop_dict: dict) -> str:
         )
 
     return "new" if is_new else "updated"
+
+
+def _ensure_unique_slug(base_slug: str) -> str:
+    """Verifica que el slug no exista ya en Supabase. Si existe, le agrega
+    un sufijo numérico (-2, -3, ...)."""
+    r = requests.get(
+        f"{_url()}/rest/v1/properties"
+        f"?slug=eq.{base_slug}"
+        f"&select=slug",
+        headers=_headers(),
+        timeout=10,
+    )
+    r.raise_for_status()
+    existing = {row["slug"] for row in r.json()}
+
+    if base_slug not in existing:
+        return base_slug
+
+    counter = 2
+    while f"{base_slug}-{counter}" in existing:
+        counter += 1
+    return f"{base_slug}-{counter}"
 
 
 # ── scrape_runs ────────────────────────────────────────────────────

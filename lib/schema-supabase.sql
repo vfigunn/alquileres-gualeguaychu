@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS sources (
 -- Propiedades
 CREATE TABLE IF NOT EXISTS properties (
   id              BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  slug            TEXT UNIQUE,
   source          TEXT NOT NULL REFERENCES sources(slug),
   source_id       TEXT NOT NULL,
   url             TEXT NOT NULL,

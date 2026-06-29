@@ -1,77 +1,115 @@
-import fs from "node:fs";
-import path from "node:path";
+import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
 import type { Property, Source } from "@/lib/types";
-import { formatPrice, specsLine, timeAgo, typeLabel, categorizeFeatures, formatDescription } from "@/lib/format";
+import { formatPrice, specsLine, typeLabel, categorizeFeatures, formatDescription } from "@/lib/format";
 import { PropertyGallery } from "@/components/PropertyGallery";
+import { supabase } from "@/lib/supabase";
 
-// Static export: pre-renderiza una página por cada propiedad conocida.
-export const dynamicParams = false;
+/* ═══════════════════════════════════════════════════════════
+   Página de detalle de propiedad — SEO-friendly con slug
+   /propiedad/<slug>
+   ═══════════════════════════════════════════════════════════ */
 
-function dataDir() {
-  return path.join(process.cwd(), "public", "data");
-}
+// Revalidar cada 6 horas (ISR). Las props nuevas llegan con el
+// próximo build o cuando el scraper actualice Supabase.
+export const revalidate = 21600; // 6h en segundos
 
-export async function generateStaticParams() {
-  const file = path.join(dataDir(), "properties.json");
-  if (!fs.existsSync(file)) return [];
-  const dataset = JSON.parse(fs.readFileSync(file, "utf-8")) as {
-    properties: { id: number }[];
+async function getProperty(slug: string): Promise<Property | null> {
+  const { data, error } = await supabase
+    .from("properties")
+    .select("*")
+    .eq("slug", slug)
+    .eq("hidden", false)
+    .single();
+
+  if (error || !data) return null;
+
+  // Normalizar campos JSONB
+  const images = Array.isArray(data.images_json) ? data.images_json as string[] : [];
+  const features = Array.isArray(data.features_json) ? data.features_json as string[] : [];
+
+  return {
+    id: data.id,
+    slug: data.slug ?? null,
+    source: data.source,
+    source_id: data.source_id,
+    url: data.url,
+    title: data.title ?? null,
+    description: data.description ?? null,
+    price_ars: data.price_ars ?? null,
+    price_usd: data.price_usd ?? null,
+    currency: data.currency ?? null,
+    expenses_ars: data.expenses_ars ?? null,
+    property_type: data.property_type ?? null,
+    operation: data.operation ?? "alquiler",
+    bedrooms: data.bedrooms ?? null,
+    bathrooms: data.bathrooms ?? null,
+    area_total: data.area_total ?? null,
+    area_covered: data.area_covered ?? null,
+    garage: data.garage ?? 0,
+    rooms: data.rooms ?? null,
+    address: data.address ?? null,
+    neighborhood: data.neighborhood ?? null,
+    lat: data.lat ?? null,
+    lng: data.lng ?? null,
+    images,
+    features,
+    featured: Boolean(data.featured),
+    hidden: Boolean(data.hidden),
+    first_seen_at: data.first_seen_at ?? new Date().toISOString(),
+    last_seen_at: data.last_seen_at ?? new Date().toISOString(),
+    published_at: data.published_at ?? null,
   };
-  return dataset.properties.map((p) => ({ id: String(p.id) }));
 }
 
-function loadProperty(id: string): Property | null {
-  const file = path.join(dataDir(), `property-${id}.json`);
-  if (!fs.existsSync(file)) return null;
-  return JSON.parse(fs.readFileSync(file, "utf-8")) as Property;
+async function getSource(slug: string): Promise<Source | null> {
+  const { data, error } = await supabase
+    .from("sources")
+    .select("slug, name, url, enabled")
+    .eq("slug", slug)
+    .single();
+
+  if (error || !data) return null;
+  return data as Source;
 }
 
-function loadSources(): Source[] {
-  const file = path.join(dataDir(), "properties.json");
-  if (!fs.existsSync(file)) return [];
-  const dataset = JSON.parse(fs.readFileSync(file, "utf-8")) as {
-    sources: Source[];
-  };
-  return dataset.sources;
-}
+/* ── Metadata dinámica para SEO ── */
 
 export async function generateMetadata({
   params,
 }: {
-  params: { id: string };
+  params: { slug: string };
 }): Promise<Metadata> {
-  const p = loadProperty(params.id);
+  const p = await getProperty(params.slug);
   if (!p) return { title: "Propiedad no encontrada" };
+
+  const title = p.title ?? "Propiedad en alquiler";
+  const description = p.description?.slice(0, 160) ?? `Alquiler en ${p.neighborhood ?? p.address ?? "Gualeguaychú"}`;
+  const price = p.price_ars ? `$ ${p.price_ars.toLocaleString("es-AR")}/mes` : "Consultar precio";
+
   return {
-    title: p.title ?? "Propiedad en alquiler",
-    description: p.description ?? undefined,
+    title: `${title} — ${price}`,
+    description,
+    openGraph: {
+      title: `${title} — ${price}`,
+      description,
+      images: p.images.length > 0 ? [p.images[0]] : [],
+    },
   };
 }
 
-export default function PropiedadPage({
+/* ── Página ── */
+
+export default async function PropiedadPage({
   params,
 }: {
-  params: { id: string };
+  params: { slug: string };
 }) {
-  const p = loadProperty(params.id);
-  if (!p) {
-    return (
-      <div className="py-16 text-center w-full">
-        <h1 className="font-ebGaramond text-headline-lg text-primary">Propiedad no encontrada</h1>
-        <Link
-          href="/"
-          className="mt-4 inline-block font-manrope text-label-md text-secondary hover:underline"
-        >
-          ← Volver al buscador
-        </Link>
-      </div>
-    );
-  }
+  const p = await getProperty(params.slug);
+  if (!p) notFound();
 
-  const sources = loadSources();
-  const source = sources.find((s) => s.slug === p.source);
+  const source = await getSource(p.source);
 
   return (
     <div className="w-full flex flex-col gap-lg min-w-0">

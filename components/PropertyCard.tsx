@@ -29,7 +29,7 @@ export function PropertyCard({ p, sourceName }: { p: Property; sourceName?: stri
 
   return (
     <Link
-      href={`/propiedad/${p.id}`}
+      href={`/propiedad/${p.slug ?? p.id}`}
       className="bg-surface-container-lowest rounded-xl overflow-hidden border border-outline-variant/30 hover:border-gold/30 transition-all shadow-sm hover:shadow-lg group cursor-pointer flex flex-col"
     >
       <div className="relative h-64 w-full overflow-hidden bg-surface-container group/carousel">
