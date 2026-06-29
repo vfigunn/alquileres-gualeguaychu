@@ -106,7 +106,12 @@ class BaseScraper:
                 log.warning("Error parseando %s: %s", url, exc)
             time.sleep(self.detail_delay)
 
-        result.removed = db.mark_unseen_as_removed(self.source, seen_ids)
+        result.removed = db.mark_unseen_as_removed(
+            self.source,
+            seen_ids,
+            total_found=len(listings),
+            max_details=self.max_details,
+        )
         db.finish_run(
             run_id,
             status="partial" if result.errors else "ok",

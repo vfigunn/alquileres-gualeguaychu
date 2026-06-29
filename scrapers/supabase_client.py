@@ -148,6 +148,7 @@ def upsert_property(prop_dict: dict) -> str:
             "features_json": prop_dict.get("features_json", []),
             "published_at": prop_dict.get("published_at"),
             "last_seen_at": datetime_now_iso(),
+            "hidden": False,  # reactivar si estaba oculta
         }
         body = {k: v for k, v in mutable.items() if v is not None}
         r = requests.patch(
@@ -244,12 +245,18 @@ def finish_run(
 
 # ── removed_properties ─────────────────────────────────────────────
 
-def mark_unseen_as_removed(source: str, seen_ids: list[str]) -> int:
-    """Marca propiedades de `source` que NO están en `seen_ids` como removidas.
+def mark_unseen_as_removed(source: str, seen_ids: list[str], *, total_found: int = 0, max_details: int = 200) -> int:
+    """Marca propiedades no encontradas como hidden=true + registra en removed_properties.
 
-    Inserta en `removed_properties` con ON CONFLICT DO NOTHING/UPDATE.
+    Solo actúa si se procesaron TODOS los listings (total_found <= max_details).
+    Si el scraper encontró más propiedades de las que procesa, no oculta nada
+    para evitar falsos positivos.
     """
     if not seen_ids:
+        return 0
+
+    # Seguridad: si no procesamos todos los listings, no marcar como removidas
+    if total_found > max_details:
         return 0
 
     # Obtener todas las propiedades actuales de esta fuente
@@ -271,6 +278,7 @@ def mark_unseen_as_removed(source: str, seen_ids: list[str]) -> int:
     now = datetime_now_iso()
 
     for p in removed:
+        # 1. Registrar en removed_properties (auditoría)
         body = {
             "source": source,
             "source_id": p["source_id"],
@@ -278,7 +286,6 @@ def mark_unseen_as_removed(source: str, seen_ids: list[str]) -> int:
             "title": p.get("title", ""),
             "removed_at": now,
         }
-        # Upsert: si ya existe, actualiza removed_at
         r = requests.post(
             f"{_url()}/rest/v1/removed_properties"
             f"?on_conflict=source,source_id",
@@ -290,6 +297,21 @@ def mark_unseen_as_removed(source: str, seen_ids: list[str]) -> int:
             raise SupabaseError(
                 f"mark_unseen_as_removed({source}/{p['source_id']}): "
                 f"{r.status_code} {r.text[:300]}"
+            )
+
+        # 2. Ocultar la propiedad (hidden = true) → no se muestra en el sitio
+        r2 = requests.patch(
+            f"{_url()}/rest/v1/properties"
+            f"?source=eq.{source}"
+            f"&source_id=eq.{p['source_id']}",
+            headers={**_headers(), "Prefer": "return=minimal"},
+            json={"hidden": True},
+            timeout=15,
+        )
+        if r2.status_code >= 400:
+            raise SupabaseError(
+                f"ocultar({source}/{p['source_id']}): "
+                f"{r2.status_code} {r2.text[:300]}"
             )
 
     return len(removed)
