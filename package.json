@@ -1,0 +1,33 @@
+{
+  "name": "alquileres-gualeguaychu",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Agregador de alquileres de Gualeguaychú. Scrapers + sitio estático.",
+  "scripts": {
+    "prebuild": "node lib/build-data.mjs",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "db:init": "node lib/init-db.mjs",
+    "db:seed": "node lib/seed-db.mjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.108.2",
+    "next": "14.2.35",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "resend": "^6.16.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.11",
+    "@types/node": "^26.0.1",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "autoprefixer": "^10.4.19",
+    "better-sqlite3": "^11.1.2",
+    "postcss": "^8.4.39",
+    "tailwindcss": "^3.4.6",
+    "typescript": "^5.5.3"
+  }
+}

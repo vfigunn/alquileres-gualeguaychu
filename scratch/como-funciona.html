@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cómo funciona - Alquileres Gualeguaychú</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary": "#ffffff",
+                        "primary-fixed-dim": "#bec6e0",
+                        "surface-container-high": "#e6e8ea",
+                        "on-error": "#ffffff",
+                        "on-secondary-container": "#785a1a",
+                        "on-tertiary-fixed": "#0b1c30",
+                        "tertiary-container": "#0b1c30",
+                        "surface-dim": "#d8dadc",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed": "#131b2e",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "on-primary-container": "#7c839b",
+                        "primary-fixed": "#dae2fd",
+                        "on-tertiary-container": "#75859d",
+                        "surface-variant": "#e0e3e5",
+                        "on-surface-variant": "#45464d",
+                        "error-container": "#ffdad6",
+                        "primary": "#000000",
+                        "secondary-fixed": "#ffdea5",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary": "#775a19",
+                        "tertiary-fixed-dim": "#b7c8e1",
+                        "on-secondary-fixed-variant": "#5d4201",
+                        "on-primary": "#ffffff",
+                        "on-background": "#191c1e",
+                        "surface": "#f7f9fb",
+                        "inverse-on-surface": "#eff1f3",
+                        "outline": "#76777d",
+                        "tertiary": "#000000",
+                        "surface-tint": "#565e74",
+                        "surface-container-low": "#f2f4f6",
+                        "primary-container": "#131b2e",
+                        "tertiary-fixed": "#d3e4fe",
+                        "outline-variant": "#c6c6cd",
+                        "background": "#f7f9fb",
+                        "surface-container": "#eceef0",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-tertiary-fixed-variant": "#38485d",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#f7f9fb",
+                        "inverse-primary": "#bec6e0",
+                        "secondary-container": "#fed488",
+                        "secondary-fixed-dim": "#e9c176",
+                        "on-surface": "#191c1e",
+                        "on-secondary-fixed": "#261900",
+                        "inverse-surface": "#2d3133",
+                        "on-error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xl": "80px",
+                        "xs": "8px",
+                        "sm": "16px",
+                        "base": "4px",
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "md": "24px",
+                        "lg": "48px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Manrope", "sans-serif"],
+                        "label-sm": ["Manrope", "sans-serif"],
+                        "headline-md": ["EB Garamond", "serif"],
+                        "headline-lg-mobile": ["EB Garamond", "serif"],
+                        "label-md": ["Manrope", "sans-serif"],
+                        "headline-lg": ["EB Garamond", "serif"],
+                        "display-lg": ["EB Garamond", "serif"],
+                        "body-lg": ["Manrope", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "500" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "500" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .accordion-content {
+            transition: max-height 0.3s ease-out, opacity 0.3s ease-out, padding 0.3s ease;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        .accordion-content.active {
+            max-height: 500px;
+            opacity: 1;
+        }
+        .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+        .accordion-button.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased pt-24 selection:bg-secondary-fixed selection:text-on-secondary-fixed">
+<!-- TopNavBar (Shared Component) -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface-container-lowest/80 backdrop-blur-xl border-b border-outline-variant/30 dark:border-outline/20">
+<div class="flex justify-between items-center px-gutter py-md max-w-container-max mx-auto">
+<!-- Brand -->
+<a class="flex items-center gap-2" href="#">
+<img alt="Alquileres Gualeguaychú Logo" class="h-8 md:h-10 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLvZlfYf4DKeNtMBVKwl_ShExcPQ15Q3YWSrj5V4xnBQVwERGFxrn0jteA9EQ49XI_E-uIgDD6cEQhqt6U8e3x2ngVhN0STOZ-0DtifQi2BEEZ6fHQzkYxfHm365HNFKDmLeoAATGA7voPb5c6vtsI37ocSeKo4VZp0wPclk5uj2L5-vYuUY4EuuHNAbQtV8_ej9_d-OQmhhcs4_f0_z_aq4H6bEd8AkFKMYUq2opO-fxvJQvtXMmajh-A"/>
+<span class="sr-only">Alquileres Gualeguaychú</span>
+</a>
+<!-- Desktop Navigation -->
+<div class="hidden md:flex items-center gap-8">
+<a class="font-manrope text-label-md text-primary dark:text-on-primary-fixed font-bold border-b-2 border-primary pb-1" href="#">Como funciona</a>
+<a class="font-manrope text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-colors hover:bg-surface-container-high/50 dark:hover:bg-surface-container-highest/20 px-3 py-1 rounded" href="#">Contacto</a>
+</div>
+<!-- Actions -->
+<div class="flex items-center gap-4">
+<a class="hidden md:inline-flex items-center justify-center font-manrope text-label-md font-semibold text-primary border border-outline-variant rounded px-6 py-2 hover:bg-surface-container-low transition-colors" href="#">Ingresar</a>
+<a class="inline-flex items-center justify-center font-manrope text-label-md font-semibold text-on-primary bg-primary rounded px-6 py-2 hover:bg-primary/90 transition-colors shadow-sm" href="#">Publicar propiedad</a>
+</div>
+</div>
+</nav>
+<main class="max-w-container-max mx-auto px-gutter pb-xl">
+<!-- Hero Section -->
+<section class="py-xl text-center md:text-left md:flex md:items-center md:gap-xl">
+<div class="md:w-1/2">
+<h1 class="font-headline-lg-mobile md:font-display-lg text-primary mb-6">
+                    Cómo funciona nuestra plataforma
+                </h1>
+<p class="font-body-lg text-on-surface-variant mb-8 max-w-2xl mx-auto md:mx-0">
+                    Conectamos a inquilinos exigentes con propiedades exclusivas en Gualeguaychú. Un proceso diseñado para ser transparente, seguro y sin fricciones, como un servicio de conserjería personal.
+                </p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+<a class="inline-flex justify-center items-center px-8 py-3 bg-secondary text-on-secondary font-label-md rounded shadow-sm hover:bg-secondary/90 transition-colors" href="#inquilinos">Soy Inquilino</a>
+<a class="inline-flex justify-center items-center px-8 py-3 border border-outline text-primary font-label-md rounded hover:bg-surface-container-low transition-colors" href="#propietarios">Soy Propietario</a>
+</div>
+</div>
+<div class="hidden md:block md:w-1/2">
+<div class="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-surface-container-high shadow-[0_4px_24px_rgba(0,0,0,0.04)] border border-outline-variant/20">
+<div class="w-full h-full bg-cover bg-center" data-alt="A pristine, highly detailed view of a luxurious, modern living room interior in Gualeguaychú. The room features high ceilings, minimalist designer furniture in neutral tones, and expansive floor-to-ceiling windows letting in soft, natural daylight. Subtle gold accents are present in the lighting fixtures. The overall aesthetic is high-end, sophisticated, and inviting, perfectly suited for a premium real estate platform's hero section." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC2cy2mZFVhK29FswnDoyaYh3xaoOQzjZlW3Tt2-IavXbjGkVmGFC0hdqKA3lKrRQUud3oge3sVeYTQYZ7_AvdjKbR03G_lzKyo5qRK9E_87212H2dlzE3k5OOIGmBHIqGKoVPpEorsg0OYdsYDfwKFBT1MJWpchZj3gXvRBvrRQXvnBiD3iZ6-2veqGTLZll3HXOOxnaTQXtG8lhkVz5b2XCaYTDrvcxNL7qzhjLQabBw6mRTzUaRWii4VSPSJEo1o9Qcb6fVKKzA')"></div>
+</div>
+</div>
+</section>
+<!-- Process for Renters -->
+<section class="py-lg border-t border-outline-variant/30" id="inquilinos">
+<div class="text-center mb-12">
+<span class="inline-block px-3 py-1 bg-secondary-container text-on-secondary-container font-label-sm rounded-full mb-4">Para Inquilinos</span>
+<h2 class="font-headline-lg text-primary">Encuentre su lugar ideal</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+<!-- Step 1 -->
+<div class="bg-surface p-8 rounded-xl border border-outline-variant/20 hover:shadow-[0_4px_20px_rgba(0,0,0,0.03)] transition-all">
+<div class="w-12 h-12 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined" data-icon="search" style="font-variation-settings: 'FILL' 1;">search</span>
+</div>
+<h3 class="font-headline-md text-primary mb-3">Busca tu propiedad</h3>
+<p class="text-on-surface-variant font-body-md">Explore nuestra cuidada selección de inmuebles utilizando filtros avanzados para encontrar exactamente lo que necesita.</p>
+</div>
+<!-- Step 2 -->
+<div class="bg-surface p-8 rounded-xl border border-outline-variant/20 hover:shadow-[0_4px_20px_rgba(0,0,0,0.03)] transition-all">
+<div class="w-12 h-12 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined" data-icon="chat" style="font-variation-settings: 'FILL' 1;">chat</span>
+</div>
+<h3 class="font-headline-md text-primary mb-3">Contacta al propietario</h3>
+<p class="text-on-surface-variant font-body-md">Comuníquese directamente a través de nuestra plataforma segura para resolver dudas de manera inmediata.</p>
+</div>
+<!-- Step 3 -->
+<div class="bg-surface p-8 rounded-xl border border-outline-variant/20 hover:shadow-[0_4px_20px_rgba(0,0,0,0.03)] transition-all">
+<div class="w-12 h-12 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined" data-icon="calendar_month" style="font-variation-settings: 'FILL' 1;">calendar_month</span>
+</div>
+<h3 class="font-headline-md text-primary mb-3">Coordina una visita</h3>
+<p class="text-on-surface-variant font-body-md">Agende una visita presencial o virtual al inmueble en el horario que mejor se adapte a su agenda.</p>
+</div>
+<!-- Step 4 -->
+<div class="bg-surface p-8 rounded-xl border border-outline-variant/20 hover:shadow-[0_4px_20px_rgba(0,0,0,0.03)] transition-all">
+<div class="w-12 h-12 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined" data-icon="signature" style="font-variation-settings: 'FILL' 1;">signature</span>
+</div>
+<h3 class="font-headline-md text-primary mb-3">Firma el contrato</h3>
+<p class="text-on-surface-variant font-body-md">Gestione la documentación y asegure su nuevo hogar con procesos transparentes y asesoría legal.</p>
+</div>
+</div>
+</section>
+<!-- Process for Owners -->
+<section class="py-lg mt-lg bg-surface-container-lowest rounded-2xl border border-outline-variant/10 shadow-[0_2px_12px_rgba(0,0,0,0.02)] p-6 md:p-12" id="propietarios">
+<div class="text-center mb-12">
+<span class="inline-block px-3 py-1 bg-secondary-container text-on-secondary-container font-label-sm rounded-full mb-4">Para Propietarios</span>
+<h2 class="font-headline-lg text-primary">Gestione su patrimonio</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+<!-- Step 1 -->
+<div class="text-center">
+<div class="w-16 h-16 mx-auto bg-surface-container-low border border-outline-variant/30 text-primary rounded-full flex items-center justify-center mb-6 relative">
+<span class="material-symbols-outlined text-2xl" data-icon="add_home" style="font-variation-settings: 'FILL' 1;">add_home</span>
+<div class="absolute -right-2 -top-2 w-6 h-6 bg-secondary text-on-secondary rounded-full flex items-center justify-center font-label-sm">1</div>
+</div>
+<h3 class="font-headline-md text-primary mb-3">Publica tu aviso</h3>
+<p class="text-on-surface-variant font-body-md px-4">Cree un anuncio destacado con fotografías de alta calidad y detalles precisos de su propiedad.</p>
+</div>
+<!-- Step 2 -->
+<div class="text-center">
+<div class="w-16 h-16 mx-auto bg-surface-container-low border border-outline-variant/30 text-primary rounded-full flex items-center justify-center mb-6 relative">
+<span class="material-symbols-outlined text-2xl" data-icon="inbox" style="font-variation-settings: 'FILL' 1;">inbox</span>
+<div class="absolute -right-2 -top-2 w-6 h-6 bg-secondary text-on-secondary rounded-full flex items-center justify-center font-label-sm">2</div>
+</div>
+<h3 class="font-headline-md text-primary mb-3">Recibe consultas</h3>
+<p class="text-on-surface-variant font-body-md px-4">Filtramos los interesados para que usted solo gestione perfiles verificados y serios.</p>
+</div>
+<!-- Step 3 -->
+<div class="text-center">
+<div class="w-16 h-16 mx-auto bg-surface-container-low border border-outline-variant/30 text-primary rounded-full flex items-center justify-center mb-6 relative">
+<span class="material-symbols-outlined text-2xl" data-icon="shield_person" style="font-variation-settings: 'FILL' 1;">shield_person</span>
+<div class="absolute -right-2 -top-2 w-6 h-6 bg-secondary text-on-secondary rounded-full flex items-center justify-center font-label-sm">3</div>
+</div>
+<h3 class="font-headline-md text-primary mb-3">Alquila con seguridad</h3>
+<p class="text-on-surface-variant font-body-md px-4">Concretamos el alquiler garantizando el cumplimiento de normativas y la protección de su inversión.</p>
+</div>
+</div>
+<div class="text-center mt-12">
+<a class="inline-flex justify-center items-center px-8 py-3 bg-primary text-on-primary font-label-md rounded shadow-sm hover:bg-primary/90 transition-colors" href="#">Comenzar a publicar</a>
+</div>
+</section>
+<!-- FAQ Section -->
+<section class="py-xl">
+<div class="max-w-3xl mx-auto">
+<div class="text-center mb-10">
+<h2 class="font-headline-lg text-primary">Preguntas Frecuentes</h2>
+<p class="text-on-surface-variant font-body-md mt-4">Respuestas claras a sus dudas más comunes.</p>
+</div>
+<div class="space-y-4">
+<!-- FAQ Item 1 -->
+<div class="border border-outline-variant/30 rounded-lg bg-surface">
+<button aria-expanded="false" class="accordion-button w-full flex justify-between items-center p-6 text-left focus:outline-none">
+<span class="font-headline-md text-primary text-lg">¿Qué documentos necesito para alquilar?</span>
+<span class="accordion-icon material-symbols-outlined text-on-surface-variant">expand_more</span>
+</button>
+<div class="accordion-content">
+<div class="p-6 pt-0 border-t border-outline-variant/10 text-on-surface-variant font-body-md">
+                                Generalmente solicitamos DNI, demostración de ingresos (recibos de sueldo o certificación contable) y una garantía propietaria o seguro de caución. Los requisitos exactos pueden variar según las condiciones específicas de cada propietario.
+                            </div>
+</div>
+</div>
+<!-- FAQ Item 2 -->
+<div class="border border-outline-variant/30 rounded-lg bg-surface">
+<button aria-expanded="false" class="accordion-button w-full flex justify-between items-center p-6 text-left focus:outline-none">
+<span class="font-headline-md text-primary text-lg">¿Cuál es la duración típica de un contrato?</span>
+<span class="accordion-icon material-symbols-outlined text-on-surface-variant">expand_more</span>
+</button>
+<div class="accordion-content">
+<div class="p-6 pt-0 border-t border-outline-variant/10 text-on-surface-variant font-body-md">
+                                Según la ley vigente, el plazo mínimo para contratos de alquiler con destino habitacional es de 3 años (36 meses). Sin embargo, existen excepciones para alquileres temporarios o con fines específicos.
+                            </div>
+</div>
+</div>
+<!-- FAQ Item 3 -->
+<div class="border border-outline-variant/30 rounded-lg bg-surface">
+<button aria-expanded="false" class="accordion-button w-full flex justify-between items-center p-6 text-left focus:outline-none">
+<span class="font-headline-md text-primary text-lg">¿Cómo se acuerdan los aumentos?</span>
+<span class="accordion-icon material-symbols-outlined text-on-surface-variant">expand_more</span>
+</button>
+<div class="accordion-content">
+<div class="p-6 pt-0 border-t border-outline-variant/10 text-on-surface-variant font-body-md">
+                                Los ajustes se realizan anualmente o semestralmente (según acuerdo y marco legal), utilizando índices oficiales publicados por el Banco Central o acuerdos específicos entre las partes estipulados en el contrato.
+                            </div>
+</div>
+</div>
+<!-- FAQ Item 4 -->
+<div class="border border-outline-variant/30 rounded-lg bg-surface">
+<button aria-expanded="false" class="accordion-button w-full flex justify-between items-center p-6 text-left focus:outline-none">
+<span class="font-headline-md text-primary text-lg">¿Tiene costo publicar mi propiedad?</span>
+<span class="accordion-icon material-symbols-outlined text-on-surface-variant">expand_more</span>
+</button>
+<div class="accordion-content">
+<div class="p-6 pt-0 border-t border-outline-variant/10 text-on-surface-variant font-body-md">
+                                Publicar en nuestra plataforma base no tiene costo inicial. Cobramos una comisión únicamente cuando se concreta exitosamente el contrato de alquiler, garantizando que nuestros intereses estén alineados con los suyos.
+                            </div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="w-full mt-xl bg-primary-container dark:bg-surface-container-lowest">
+<div class="flex flex-col md:flex-row justify-between items-center px-gutter py-lg max-w-container-max mx-auto">
+<div class="mb-6 md:mb-0 text-center md:text-left">
+<span class="font-ebGaramond text-headline-md text-on-primary-fixed block mb-2">Alquileres Gualeguaychú</span>
+<p class="font-manrope text-label-sm text-on-primary-container/80 dark:text-on-surface-variant/80">© 2024 Alquileres Gualeguaychú. Todos los derechos reservados.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-6">
+<a class="font-manrope text-label-sm text-on-primary-container/80 dark:text-on-surface-variant/80 hover:text-on-primary dark:hover:text-primary transition-colors" href="#">Privacidad</a>
+<a class="font-manrope text-label-sm text-on-primary-container/80 dark:text-on-surface-variant/80 hover:text-on-primary dark:hover:text-primary transition-colors" href="#">Términos</a>
+<a class="font-manrope text-label-sm text-on-primary-container/80 dark:text-on-surface-variant/80 hover:text-on-primary dark:hover:text-primary transition-colors" href="#">Preguntas Frecuentes</a>
+<a class="font-manrope text-label-sm text-on-primary-container/80 dark:text-on-surface-variant/80 hover:text-on-primary dark:hover:text-primary transition-colors" href="#">Soporte</a>
+</div>
+</div>
+</footer>
+<script>
+        // Simple accordion logic
+        document.querySelectorAll('.accordion-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                const isExpanded = button.getAttribute('aria-expanded') === 'true';
+                
+                // Close all other accordions (optional, but good for cleanliness)
+                document.querySelectorAll('.accordion-button').forEach(otherBtn => {
+                    if (otherBtn !== button) {
+                        otherBtn.setAttribute('aria-expanded', 'false');
+                        otherBtn.classList.remove('active');
+                        otherBtn.nextElementSibling.classList.remove('active');
+                    }
+                });
+
+                // Toggle current
+                button.setAttribute('aria-expanded', !isExpanded);
+                button.classList.toggle('active');
+                content.classList.toggle('active');
+            });
+        });
+    </script>
+</body></html>
