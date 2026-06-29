@@ -15,7 +15,7 @@ import argparse
 import logging
 import sys
 
-from scrapers import db
+from scrapers import supabase_client as db
 from scrapers.sources import REGISTRY
 
 
@@ -65,9 +65,11 @@ def main() -> int:
 
     log.info("TOTAL found=%d new=%d updated=%d errors=%d removed=%d", *totals.values())
 
-    with db.connect() as conn:
-        c = db.counts(conn)
-    log.info("DB final: %d propiedades, %d fuentes.", c["properties"], c["sources"])
+    try:
+        c = db.counts()
+        log.info("Supabase: %d propiedades, %d fuentes.", c["properties"], c["sources"])
+    except Exception:
+        log.warning("No se pudo obtener conteo de Supabase.")
 
     return exit_code
 

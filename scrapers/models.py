@@ -54,13 +54,12 @@ class RawProperty:
     published_at: Optional[str] = None   # ISO 8601 si se conoce
 
     def to_db_row(self) -> dict:
-        """Convierte a dict listo para INSERT/UPDATE en SQLite."""
+        """Convierte a dict listo para INSERT/UPDATE en Supabase (PostgREST).
+
+        Los campos JSONB (images_json, features_json) van como listas Python,
+        no como strings — PostgREST las serializa automáticamente.
+        """
         d = asdict(self)
-        d["images_json"] = _json_dumps(d.pop("images"))
-        d["features_json"] = _json_dumps(d.pop("features"))
+        d["images_json"] = d.pop("images") or []
+        d["features_json"] = d.pop("features") or []
         return d
-
-
-def _json_dumps(value) -> str:
-    import json
-    return json.dumps(value or [], ensure_ascii=False)

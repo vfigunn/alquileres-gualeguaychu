@@ -2,30 +2,27 @@
 # Alquileres Gualeguaychú — Pipeline diario de scraping + deploy
 # =====================================================================
 # Cada día (y con botón manual):
-#   1. Corre los scrapers (Python) -> actualiza data/alquileres.db
-#   2. Si la DB cambió -> commitea el archivo a main
-#   3. El push dispara el deploy del sitio (Vercel/Netlify/GitHub Pages)
+#   1. Corre los scrapers (Python) -> escribe directo a Supabase
+#   2. Verifica que el sitio siga compilando con los datos nuevos
+#   3. El push (si hay cambios en la DB local) dispara el deploy
 #
 # SECRETOS NECESARIOS (Settings > Secrets and variables > Actions):
-#   FIRECRAWL_API_KEY   -> obligatorio para que los scrapers funcionen
-#   (Deploy) Si usás Vercel/Netlify, su token se configura allá, no acá.
-#
-# El archivo `data/alquileres.db` SÍ se commitea (es el estado compartido
-# entre el runner efímero y el build del sitio). Ver .gitignore.
+#   FIRECRAWL_API_KEY           -> obligatorio para scrapers con Firecrawl
+#   SUPABASE_URL                -> URL del proyecto Supabase
+#   SUPABASE_SERVICE_ROLE_KEY   -> JWT con rol service_role (escritura)
 # =====================================================================
 name: Scrape & Deploy
 
 on:
   schedule:
-    # 08:00 UTC = 05:00 ART (de madrugada, antes del horario pico).
-    # GitHub Actions no garantiza el minuto exacto; puede correr algo después.
+    # 08:00 UTC = 05:00 ART (madrugada, antes del horario pico)
     - cron: "0 8 * * *"
-  workflow_dispatch: {}   # botón "Run workflow" en la pestaña Actions
-  # Quitá el comentario si querés que se corra en cada PR (para probar):
+  workflow_dispatch: {}   # botón "Run workflow" manual
+  # Quitá el comentario para correr en cada PR:
   # pull_request:
 
 permissions:
-  contents: write   # para poder commitear la DB actualizada
+  contents: write   # para commitear la DB local si cambia
 
 concurrency:
   group: scrape-and-deploy
@@ -47,24 +44,28 @@ jobs:
       - name: Instalar dependencias Python
         run: pip install -r requirements.txt
 
-      - name: Correr scrapers
+      - name: Correr scrapers → Supabase
         env:
           FIRECRAWL_API_KEY: ${{ secrets.FIRECRAWL_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: |
           python -m scrapers.run
 
-      - name: Detectar cambios en la DB
+      # La DB local sigue actualizándose como cache/fallback.
+      # Si cambió, la commiteamos para mantener sincronía.
+      - name: Detectar cambios en la DB local
         id: diff
         run: |
           git add data/alquileres.db
           if git diff --cached --quiet; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
-            echo "Sin cambios nuevos."
+            echo "Sin cambios en DB local."
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Commitear DB actualizada
+      - name: Commitear DB local actualizada
         if: steps.diff.outputs.changed == 'true'
         run: |
           git config user.name "github-actions[bot]"
@@ -72,18 +73,14 @@ jobs:
           git commit -m "chore(data): actualización diaria de alquileres [skip ci]"
           git push
 
-      # El push dispara automáticamente el deploy en Vercel/Netlify/Pages
-      # (auto-deploy on push). Si usás GitHub Pages con este mismo workflow,
-      # agregá acá el job de build+deploy de NextJS (output: export).
-
-  # Build de verificación: asegura que el sitio sigue compilando con la DB nueva.
+  # Verificación: el sitio sigue compilando
   build-check:
     needs: scrape
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: main   # para traer el último commit con la DB (si hubo)
+          ref: main
 
       - uses: actions/setup-node@v4
         with:
@@ -92,7 +89,9 @@ jobs:
 
       - run: npm ci
 
-      - name: Build (genera JSON + compila el sitio)
+      - name: Build (genera JSON + compila Next.js)
         run: npm run build
         env:
           NEXT_TELEMETRY_DISABLED: "1"
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
