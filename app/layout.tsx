@@ -6,11 +6,11 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.alquileresgualeguaychu.com"),
   title: {
-    default: "Alquileres Gualeguaychú | El portal inmobiliario líder en alquileres",
+    default: "Alquileres Gualeguaychú | Encontrá todos los alquileres de Gualeguaychú en un solo lugar",
     template: "%s | Alquileres Gualeguaychú",
   },
   description:
-    "Encontrá las mejores propiedades en alquiler de Gualeguaychú. El único portal exclusivo para inmobiliarias donde podés buscar, filtrar y comparar departamentos, casas y oficinas.",
+    "Encontrá todos los alquileres de Gualeguaychú en un solo lugar. Buscá departamentos, casas, locales y más de todas las inmobiliarias de la ciudad.",
   keywords: [
     "alquileres gualeguaychú",
     "inmobiliarias gualeguaychú",
@@ -22,9 +22,9 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Alquileres Gualeguaychú" }],
   openGraph: {
-    title: "Alquileres Gualeguaychú | Buscador de Propiedades",
+    title: "Alquileres Gualeguaychú | Encontrá todos los alquileres en un solo lugar",
     description:
-      "Encontrá las mejores propiedades en alquiler de Gualeguaychú. El único portal exclusivo para inmobiliarias.",
+      "Encontrá todos los alquileres de Gualeguaychú en un solo lugar. Buscá departamentos, casas, locales y más de todas las inmobiliarias.",
     url: "https://www.alquileresgualeguaychu.com",
     siteName: "Alquileres Gualeguaychú",
     locale: "es_AR",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Alquileres Gualeguaychú",
     description:
-      "Encontrá las mejores propiedades en alquiler de Gualeguaychú.",
+      "Encontrá todos los alquileres de Gualeguaychú en un solo lugar.",
     images: ["/ag-logo-horizontal.png"],
   },
   robots: {
@@ -82,10 +82,10 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "RealEstateAgent",
+              "@type": "WebSite",
               name: "Alquileres Gualeguaychú",
               description:
-                "Portal inmobiliario líder en alquileres de Gualeguaychú, Entre Ríos.",
+                "Encontrá todos los alquileres de Gualeguaychú en un solo lugar. Buscá departamentos, casas, locales y más.",
               url: "https://www.alquileresgualeguaychu.com",
               areaServed: {
                 "@type": "City",
@@ -125,7 +125,7 @@ export default function RootLayout({
                   <img src="/ag-logo-horizontal.png" alt="Alquileres Gualeguaychú Logo" className="h-16 w-auto object-contain rounded-lg" />
                 </Link>
                 <p className="font-manrope text-body-md text-blue-200/80 leading-relaxed">
-                  El único portal exclusivo para inmobiliarias donde podés buscar, filtrar y comparar propiedades en Gualeguaychú con total confianza y seguridad.
+                  Encontrá todos los alquileres de Gualeguaychú en un solo lugar. Departamentos, casas, locales y más de todas las inmobiliarias de la ciudad.
                 </p>
                 <div className="flex gap-4 mt-sm">
                   <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-blue-200/80 hover:text-white transition-all duration-300 hover:-translate-y-1" aria-label="Facebook">
