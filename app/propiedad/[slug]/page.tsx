@@ -137,7 +137,7 @@ export default async function PropiedadPage({
         <section className="flex-1 flex flex-col gap-md">
           {/* Header Info */}
           <div className="bg-surface-container-lowest rounded-2xl p-lg border border-outline-variant/30 shadow-sm">
-            <h1 className="font-ebGaramond text-display-lg text-primary mb-2 leading-tight">
+            <h1 className="font-ebGaramond text-headline-lg-mobile md:text-display-lg text-primary mb-2 leading-tight">
               {p.title ?? "Propiedad en alquiler"}
             </h1>
             <p className="font-manrope text-body-lg text-on-surface-variant flex items-center gap-2 mb-6">
