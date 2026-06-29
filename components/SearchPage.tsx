@@ -254,7 +254,7 @@ export function SearchPage() {
       )}
 
       {/* ── Desktop Filter Sidebar (inline) ── */}
-      <aside className="hidden lg:flex flex-col w-80 shrink-0 sticky top-[120px] rounded-2xl border border-outline-variant/20 shadow-sm bg-surface-container-low h-fit mt-8 overflow-hidden">
+      <aside className="hidden lg:flex flex-col w-64 shrink-0 sticky top-[120px] rounded-2xl border border-outline-variant/20 shadow-sm bg-surface-container-low h-fit mt-8 overflow-hidden">
         <FilterContent
           filters={filters}
           facets={facets}
