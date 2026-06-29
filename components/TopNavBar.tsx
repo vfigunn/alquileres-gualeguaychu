@@ -28,6 +28,9 @@ export default function TopNavBar() {
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex flex-none items-center justify-center gap-lg">
+            <Link href="/" className="font-manrope text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-gold hover:bg-[#D4AF37]/10 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 ease-out py-2 px-5 rounded-full">
+              Inicio
+            </Link>
             <Link href="/como-funciona" className="font-manrope text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-gold hover:bg-[#D4AF37]/10 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 ease-out py-2 px-5 rounded-full">
               Como funciona
             </Link>
@@ -59,6 +62,14 @@ export default function TopNavBar() {
         }`}
       >
         <nav className="flex flex-col gap-4 mt-8">
+          <Link 
+            href="/" 
+            onClick={closeMenu}
+            className="font-manrope text-title-lg text-on-surface hover:text-gold py-4 border-b border-outline-variant/30 transition-colors flex items-center justify-between group"
+          >
+            Inicio
+            <span className="material-symbols-outlined text-gold opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all">arrow_forward</span>
+          </Link>
           <Link 
             href="/como-funciona" 
             onClick={closeMenu}
