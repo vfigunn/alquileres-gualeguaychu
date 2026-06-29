@@ -107,7 +107,7 @@ export default function RootLayout({
         {/* TopNavBar */}
         <TopNavBar />
 
-        <main className="flex-grow pt-[130px] max-w-container-max mx-auto w-full px-gutter flex gap-lg pb-xl">
+        <main className="flex-grow pt-[130px] max-w-container-max mx-auto w-full px-gutter flex gap-lg pb-xl overflow-x-hidden">
           {children}
         </main>
 
