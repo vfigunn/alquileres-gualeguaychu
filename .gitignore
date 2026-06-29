@@ -65,3 +65,5 @@ temp/
 .junie/
 .kiro/
 skills-lock.json
+.vercel
+.env*

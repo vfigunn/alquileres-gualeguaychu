@@ -52,7 +52,7 @@ export default function TopNavBar() {
 
       {/* Mobile Menu Overlay */}
       <div 
-        className={`fixed inset-0 bg-surface/95 dark:bg-surface-container-lowest/95 backdrop-blur-xl transition-all duration-300 ease-in-out md:hidden flex flex-col pt-[100px] px-gutter ${
+        className={`fixed inset-0 bg-[#0a1b2c] backdrop-blur-xl transition-all duration-300 ease-in-out md:hidden flex flex-col pt-[100px] px-gutter ${
           isMobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
         }`}
       >
@@ -60,7 +60,7 @@ export default function TopNavBar() {
           <Link 
             href="/como-funciona" 
             onClick={closeMenu}
-            className="font-manrope text-title-lg text-on-surface hover:text-gold py-4 border-b border-outline-variant/30 transition-colors flex items-center justify-between group"
+            className="font-manrope text-title-lg text-white hover:text-gold py-4 border-b border-white/20 transition-colors flex items-center justify-between group"
           >
             Como funciona
             <span className="material-symbols-outlined text-gold opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all">arrow_forward</span>
@@ -68,7 +68,7 @@ export default function TopNavBar() {
           <Link 
             href="/contacto" 
             onClick={closeMenu}
-            className="font-manrope text-title-lg text-on-surface hover:text-gold py-4 border-b border-outline-variant/30 transition-colors flex items-center justify-between group"
+            className="font-manrope text-title-lg text-white hover:text-gold py-4 border-b border-white/20 transition-colors flex items-center justify-between group"
           >
             Contacto
             <span className="material-symbols-outlined text-gold opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all">arrow_forward</span>

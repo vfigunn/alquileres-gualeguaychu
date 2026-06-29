@@ -459,7 +459,7 @@ export function SearchPage() {
                   setSort(e.target.value as SortKey);
                   setPage(1);
                 }}
-                className="bg-transparent font-semibold text-gold cursor-pointer border-none p-0 focus:ring-0 outline-none"
+                className="bg-surface-container-high border border-outline-variant/30 rounded-lg px-3 py-1.5 text-on-surface font-semibold cursor-pointer focus:ring-2 focus:ring-gold/40 focus:border-gold outline-none appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2345464d%22%20stroke-width%3D%222%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px] bg-[right_8px_center] bg-no-repeat pr-8"
               >
                 <option value="relevance">Relevancia</option>
                 <option value="newest">Más recientes</option>

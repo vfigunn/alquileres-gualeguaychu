@@ -4,29 +4,63 @@ import TopNavBar from "@/components/TopNavBar";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Alquileres Gualeguaychú | El portal inmobiliario líder en alquileres",
+  metadataBase: new URL("https://www.alquileresgualeguaychu.com"),
+  title: {
+    default: "Alquileres Gualeguaychú | El portal inmobiliario líder en alquileres",
+    template: "%s | Alquileres Gualeguaychú",
+  },
   description:
     "Encontrá las mejores propiedades en alquiler de Gualeguaychú. El único portal exclusivo para inmobiliarias donde podés buscar, filtrar y comparar departamentos, casas y oficinas.",
-  keywords: ["alquileres gualeguaychú", "inmobiliarias gualeguaychú", "departamentos en alquiler", "casas en alquiler", "alquiler gualeguaychu"],
+  keywords: [
+    "alquileres gualeguaychú",
+    "inmobiliarias gualeguaychú",
+    "departamentos en alquiler",
+    "casas en alquiler",
+    "alquiler gualeguaychu",
+    "propiedades gualeguaychu",
+    "alquileres entre rios",
+  ],
+  authors: [{ name: "Alquileres Gualeguaychú" }],
   openGraph: {
     title: "Alquileres Gualeguaychú | Buscador de Propiedades",
-    description: "Encontrá las mejores propiedades en alquiler de Gualeguaychú. El único portal exclusivo para inmobiliarias.",
+    description:
+      "Encontrá las mejores propiedades en alquiler de Gualeguaychú. El único portal exclusivo para inmobiliarias.",
     url: "https://www.alquileresgualeguaychu.com",
     siteName: "Alquileres Gualeguaychú",
     locale: "es_AR",
     type: "website",
+    images: [
+      {
+        url: "/ag-logo-horizontal.png",
+        width: 800,
+        height: 200,
+        alt: "Alquileres Gualeguaychú",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Alquileres Gualeguaychú",
-    description: "Encontrá las mejores propiedades en alquiler de Gualeguaychú.",
+    description:
+      "Encontrá las mejores propiedades en alquiler de Gualeguaychú.",
+    images: ["/ag-logo-horizontal.png"],
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  alternates: {
+    canonical: "https://www.alquileresgualeguaychu.com",
   },
   icons: {
-    icon: '/favicon.ico?v=2',
+    icon: "/favicon.ico?v=2",
   },
 };
 
@@ -42,6 +76,34 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Manrope:wght@200..800&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body-md text-body-md antialiased min-h-screen flex flex-col bg-background text-on-background">
+        {/* JSON-LD Organization */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "RealEstateAgent",
+              name: "Alquileres Gualeguaychú",
+              description:
+                "Portal inmobiliario líder en alquileres de Gualeguaychú, Entre Ríos.",
+              url: "https://www.alquileresgualeguaychu.com",
+              areaServed: {
+                "@type": "City",
+                name: "Gualeguaychú",
+                containedInPlace: {
+                  "@type": "State",
+                  name: "Entre Ríos",
+                },
+              },
+              contactPoint: {
+                "@type": "ContactPoint",
+                contactType: "customer service",
+                url: "https://www.alquileresgualeguaychu.com/contacto",
+              },
+            }),
+          }}
+        />
+
         {/* TopNavBar */}
         <TopNavBar />
 

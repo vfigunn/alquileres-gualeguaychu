@@ -91,10 +91,15 @@ export async function generateMetadata({
   return {
     title: `${title} — ${price}`,
     description,
+    alternates: {
+      canonical: `https://www.alquileresgualeguaychu.com/propiedad/${p.slug}`,
+    },
     openGraph: {
       title: `${title} — ${price}`,
       description,
       images: p.images.length > 0 ? [p.images[0]] : [],
+      url: `https://www.alquileresgualeguaychu.com/propiedad/${p.slug}`,
+      type: "website",
     },
   };
 }
@@ -259,6 +264,45 @@ export default async function PropiedadPage({
           </div>
         </aside>
       </div>
+
+      {/* Structured Data (JSON-LD) para Google Rich Snippets */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "RealEstateListing",
+            name: p.title ?? "Propiedad en alquiler",
+            description: p.description?.slice(0, 300) ?? "",
+            url: `https://www.alquileresgualeguaychu.com/propiedad/${p.slug}`,
+            image: p.images.length > 0 ? p.images[0] : undefined,
+            datePosted: p.published_at ?? p.first_seen_at,
+            offers: {
+              "@type": "Offer",
+              price: p.price_ars ?? p.price_usd ?? 0,
+              priceCurrency: p.currency ?? "ARS",
+              availability: "https://schema.org/InStock",
+            },
+            address: p.address
+              ? {
+                  "@type": "PostalAddress",
+                  streetAddress: p.address,
+                  addressLocality: "Gualeguaychú",
+                  addressRegion: "Entre Ríos",
+                  addressCountry: "AR",
+                }
+              : undefined,
+            numberOfRooms: p.rooms ?? undefined,
+            floorSize: p.area_total
+              ? {
+                  "@type": "QuantitativeValue",
+                  value: p.area_total,
+                  unitCode: "MTK",
+                }
+              : undefined,
+          }),
+        }}
+      />
     </div>
   );
 }
