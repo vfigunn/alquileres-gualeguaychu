@@ -169,7 +169,6 @@ def start_run(source: str) -> int:
     body = {
         "source": source,
         "started_at": now,
-        "status": "running",
         "found_count": 0,
         "new_count": 0,
         "updated_count": 0,
