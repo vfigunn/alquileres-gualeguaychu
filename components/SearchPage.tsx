@@ -6,6 +6,7 @@ import type { Property, PropertyType, Source } from "@/lib/types";
 import { EMPTY_FILTERS, Filters } from "@/lib/filters";
 import { PropertyCard } from "./PropertyCard";
 import { typeLabel } from "@/lib/format";
+import { FilterContent } from "./FilterContent";
 
 const ALL_TYPES: PropertyType[] = [
   "casa",
@@ -227,189 +228,43 @@ export function SearchPage() {
 
   return (
     <>
-      {/* SideNavBar (Filters) */}
-      <aside
-        className={`bg-surface-container-low dark:bg-surface-container-high h-fit w-80 sticky top-[120px] rounded-2xl overflow-hidden mt-8 ${
-          showFilters ? "flex" : "hidden"
-        } lg:flex flex-col border border-outline-variant/20 shadow-sm shrink-0`}
-      >
-        <div className="p-md border-b border-outline-variant/20 flex justify-between items-center">
-          <div>
-            <h2 className="font-ebGaramond text-headline-md text-primary">Filtros Avanzados</h2>
-            <p className="font-manrope text-label-sm text-on-surface-variant mt-1">
-              Refine su búsqueda exclusiva
-            </p>
-          </div>
-          <button
-            onClick={reset}
-            className="font-manrope text-label-sm text-secondary hover:underline"
-          >
-            Limpiar
-          </button>
-        </div>
-
-        <div className="flex flex-col gap-md p-md font-manrope text-label-md">
-          {/* Precio */}
-          <div className="flex flex-col gap-2 group">
-            <div className="flex items-center gap-3 text-on-surface-variant">
-              <span className="material-symbols-outlined text-outline">payments</span>
-              <span>Precio</span>
-            </div>
-            <div className="flex gap-2">
-              {(["any", "ARS", "USD"] as const).map((c) => (
-                <button
-                  key={c}
-                  onClick={() => setFiltersAndResetPage({ ...filters, currency: c })}
-                  className={`flex-1 rounded-lg border py-2 text-center transition-colors ${
-                    filters.currency === c
-                      ? "border-gold bg-gold text-black"
-                      : "border-outline-variant/30 hover:border-outline/50 text-on-surface-variant"
-                  }`}
-                >
-                  {c === "any" ? "Todos" : c}
-                </button>
-              ))}
-            </div>
-            <div className="flex gap-2 mt-2">
-              <input
-                type="number"
-                placeholder="Mínimo"
-                value={filters.priceMin ?? ""}
-                onChange={(e) =>
-                  setFiltersAndResetPage({
-                    ...filters,
-                    priceMin: e.target.value ? Number(e.target.value) : null,
-                  })
-                }
-                className="w-1/2 rounded-lg border border-outline-variant/30 bg-surface-container focus:bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary font-manrope text-label-md px-3 py-2"
-              />
-              <input
-                type="number"
-                placeholder="Máximo"
-                value={filters.priceMax ?? ""}
-                onChange={(e) =>
-                  setFiltersAndResetPage({
-                    ...filters,
-                    priceMax: e.target.value ? Number(e.target.value) : null,
-                  })
-                }
-                className="w-1/2 rounded-lg border border-outline-variant/30 bg-surface-container focus:bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary font-manrope text-label-md px-3 py-2"
-              />
-            </div>
-          </div>
-
-          {/* Habitaciones */}
-          <div className="flex flex-col gap-2 mt-2">
-            <div className="flex items-center gap-3 text-on-surface-variant">
-              <span className="material-symbols-outlined text-outline">bed</span>
-              <span>Dormitorios mín.</span>
-            </div>
-            <div className="flex gap-1.5">
-              {[1, 2, 3, 4].map((n) => (
-                <button
-                  key={n}
-                  onClick={() =>
-                    setFiltersAndResetPage({
-                      ...filters,
-                      bedroomsMin: filters.bedroomsMin === n ? null : n,
-                    })
-                  }
-                  className={`flex-1 rounded-lg border py-1.5 text-center transition-colors ${
-                    filters.bedroomsMin === n
-                      ? "border-gold bg-gold text-black"
-                      : "border-outline-variant/30 hover:border-outline/50 text-on-surface-variant"
-                  }`}
-                >
-                  {n}+
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Tipo de Propiedad */}
-          <div className="flex flex-col gap-2 mt-2">
-            <div className="flex items-center gap-3 text-on-surface-variant">
-              <span className="material-symbols-outlined text-outline">home_work</span>
-              <span>Tipo de Propiedad</span>
-            </div>
-            <div className="flex flex-wrap gap-1.5">
-              {facetsLoading ? (
-                <span className="text-label-sm text-on-surface-variant">Cargando...</span>
-              ) : (
-                ALL_TYPES.filter((t) => facets.types[t]).map((t) => (
-                  <button
-                    key={t}
-                    onClick={() => toggleType(t)}
-                    className={`rounded-full border px-3 py-1.5 text-xs transition-colors ${
-                      activeTypes.has(t)
-                        ? "border-gold bg-gold text-black"
-                        : "border-outline-variant/30 bg-surface text-on-surface-variant hover:border-outline/50"
-                    }`}
-                  >
-                    {typeLabel(t)} ({facets.types[t]})
-                  </button>
-                ))
-              )}
-            </div>
-          </div>
-
-          {/* Barrio */}
-          {neighborhoods.length > 0 && (
-            <div className="flex flex-col gap-2 mt-2">
-              <div className="flex items-center gap-3 text-on-surface-variant">
-                <span className="material-symbols-outlined text-outline">location_on</span>
-                <span>Barrio</span>
-              </div>
-              <div className="flex flex-wrap gap-1.5">
-                {neighborhoods.map((n) => (
-                  <button
-                    key={n}
-                    onClick={() => {
-                      const next = new Set(filters.neighborhoods);
-                      next.has(n) ? next.delete(n) : next.add(n);
-                      setFiltersAndResetPage({ ...filters, neighborhoods: [...next] });
-                    }}
-                    className={`rounded-full border px-3 py-1.5 text-xs transition-colors ${
-                      filters.neighborhoods.includes(n)
-                        ? "border-gold bg-gold text-black"
-                        : "border-outline-variant/30 bg-surface text-on-surface-variant hover:border-outline/50"
-                    }`}
-                  >
-                    {n} ({facets.neighborhoods[n]})
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Servicios */}
-          <div className="flex flex-col gap-2 mt-2">
-            <div className="flex items-center gap-3 text-on-surface-variant">
-              <span className="material-symbols-outlined text-outline">pool</span>
-              <span>Servicios</span>
-            </div>
-            <label className="flex items-center gap-2 cursor-pointer mt-1">
-              <input
-                type="checkbox"
-                checked={filters.garageOnly}
-                onChange={(e) =>
-                  setFiltersAndResetPage({ ...filters, garageOnly: e.target.checked })
-                }
-                className="h-5 w-5 rounded border-outline-variant/50 text-gold focus:ring-gold"
-              />
-              <span>Solo con cochera</span>
-            </label>
-          </div>
-        </div>
-
-        <div className="p-md pt-0 mt-4">
-          <button
+      {/* ── Mobile Filter Overlay ── */}
+      {showFilters && (
+        <div className="fixed inset-0 z-40 lg:hidden">
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black/30 backdrop-blur-sm"
             onClick={() => setShowFilters(false)}
-            className="w-full font-manrope text-label-md bg-secondary text-on-secondary py-3 rounded-lg hover:bg-secondary-fixed-dim transition-colors shadow-sm lg:hidden"
-          >
-            Cerrar Filtros
-          </button>
+          />
+          {/* Sidebar drawer */}
+          <aside className="absolute right-0 top-0 h-full w-80 max-w-[85vw] bg-surface-container-lowest border-l border-outline-variant/20 shadow-2xl flex flex-col animate-slide-in">
+            <FilterContent
+              filters={filters}
+              facets={facets}
+              facetsLoading={facetsLoading}
+              neighborhoods={neighborhoods}
+              activeTypes={activeTypes}
+              setFiltersAndResetPage={setFiltersAndResetPage}
+              toggleType={toggleType}
+              reset={reset}
+              onClose={() => setShowFilters(false)}
+            />
+          </aside>
         </div>
+      )}
+
+      {/* ── Desktop Filter Sidebar (inline) ── */}
+      <aside className="hidden lg:flex flex-col w-80 shrink-0 sticky top-[120px] rounded-2xl border border-outline-variant/20 shadow-sm bg-surface-container-low h-fit mt-8 overflow-hidden">
+        <FilterContent
+          filters={filters}
+          facets={facets}
+          facetsLoading={facetsLoading}
+          neighborhoods={neighborhoods}
+          activeTypes={activeTypes}
+          setFiltersAndResetPage={setFiltersAndResetPage}
+          toggleType={toggleType}
+          reset={reset}
+        />
       </aside>
 
       {/* Main Property Grid */}

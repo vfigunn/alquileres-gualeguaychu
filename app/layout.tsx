@@ -75,7 +75,7 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Manrope:wght@200..800&display=swap" rel="stylesheet" />
       </head>
-      <body className="font-body-md text-body-md antialiased min-h-screen flex flex-col bg-background text-on-background">
+      <body className="font-body-md text-body-md antialiased min-h-screen flex flex-col bg-background text-on-background overflow-x-hidden">
         {/* JSON-LD Organization */}
         <script
           type="application/ld+json"
