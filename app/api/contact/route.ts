@@ -19,7 +19,8 @@ export async function POST(request: Request) {
       ? 'onboarding@resend.dev'
       : 'Alquileres Gualeguaychú <no-reply@alquileresgualeguaychu.com>';
 
-    const { data, error } = await resend.emails.send({
+    // 1. Notificar al administrador
+    const { data: adminData, error: adminError } = await resend.emails.send({
       from: senderEmail,
       to: ['alquileresgualeguaychu@protonmail.com'],
       subject: `Nueva solicitud de integración: ${inmobiliaria}`,
@@ -36,15 +37,29 @@ export async function POST(request: Request) {
       replyTo: email,
     });
 
-    if (error) {
-      console.error('Error from Resend:', error);
-      return NextResponse.json(
-        { error: { message: error.message, name: error.name } },
-        { status: 500 }
-      );
+    if (adminError) {
+      console.error('Error sending admin notification:', adminError);
     }
 
-    return NextResponse.json({ data, error: null });
+    // 2. Enviar confirmación al usuario usando el template
+    const { data: confirmData, error: confirmError } = await resend.emails.send({
+      from: senderEmail,
+      to: [email],
+      subject: '',  // lo define el template
+      template: {
+        id: '75a06ac0-45ad-4150-abac-ec3dd7b5f60d',
+        variables: {
+          NOMBRE: nombre,
+          INMOBILIARIA: inmobiliaria,
+        },
+      },
+    });
+
+    if (confirmError) {
+      console.error('Error sending confirmation email:', confirmError);
+    }
+
+    return NextResponse.json({ data: { admin: adminData, confirmation: confirmData }, error: null });
   } catch (err: any) {
     console.error('Unexpected error in contact API:', err);
     return NextResponse.json(
