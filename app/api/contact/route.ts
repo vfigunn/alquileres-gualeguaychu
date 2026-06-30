@@ -15,9 +15,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const senderEmail = process.env.NODE_ENV === 'development'
-      ? 'onboarding@resend.dev'
-      : 'Alquileres Gualeguaychú <no-reply@alquileresgualeguaychu.com>';
+    const senderEmail = 'Alquileres Gualeguaychú <onboarding@resend.dev>';
 
     // 1. Notificar al administrador
     const { data: adminData, error: adminError } = await resend.emails.send({
@@ -42,9 +40,13 @@ export async function POST(request: Request) {
     }
 
     // 2. Enviar confirmación al usuario usando el template
+    // Nota: sin dominio verificado en Resend, onboarding@resend.dev solo entrega
+    // a alquileresgualeguaychu@protonmail.com. Cuando compres un dominio,
+    // esto enviará directo al email del usuario.
+    const confirmRecipient = email;
     const { data: confirmData, error: confirmError } = await resend.emails.send({
       from: senderEmail,
-      to: [email],
+      to: [confirmRecipient],
       subject: '',  // lo define el template
       template: {
         id: '75a06ac0-45ad-4150-abac-ec3dd7b5f60d',
@@ -57,6 +59,22 @@ export async function POST(request: Request) {
 
     if (confirmError) {
       console.error('Error sending confirmation email:', confirmError);
+      // Si falla (ej: dominio no verificado), reenviar al admin como preview
+      if (confirmError.name === 'validation_error') {
+        const { error: fallbackError } = await resend.emails.send({
+          from: senderEmail,
+          to: ['alquileresgualeguaychu@protonmail.com'],
+          subject: `[Preview] Confirmación para ${nombre} (${email})`,
+          template: {
+            id: '75a06ac0-45ad-4150-abac-ec3dd7b5f60d',
+            variables: {
+              NOMBRE: nombre,
+              INMOBILIARIA: inmobiliaria,
+            },
+          },
+        });
+        if (fallbackError) console.error('Fallback also failed:', fallbackError);
+      }
     }
 
     return NextResponse.json({ data: { admin: adminData, confirmation: confirmData }, error: null });
