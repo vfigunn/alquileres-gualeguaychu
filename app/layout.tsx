@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { FaInstagram } from "react-icons/fa";
 import TopNavBar from "@/components/TopNavBar";
 import "./globals.css";
 
@@ -182,8 +183,8 @@ export default function RootLayout({
                   <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-blue-200/80 hover:text-white transition-all duration-300 hover:-translate-y-1" aria-label="Facebook">
                     <span className="material-symbols-outlined text-[20px]">public</span>
                   </a>
-                  <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-blue-200/80 hover:text-white transition-all duration-300 hover:-translate-y-1" aria-label="Instagram">
-                    <span className="material-symbols-outlined text-[20px]">photo_camera</span>
+                  <a href="https://www.instagram.com/alquileresgualeguaychu.ok" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-blue-200/80 hover:text-white transition-all duration-300 hover:-translate-y-1" aria-label="Instagram">
+                    <FaInstagram className="text-[20px]" />
                   </a>
                   <Link href="/contacto" className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-blue-200/80 hover:text-white transition-all duration-300 hover:-translate-y-1" aria-label="Contacto">
                     <span className="material-symbols-outlined text-[20px]">mail</span>
