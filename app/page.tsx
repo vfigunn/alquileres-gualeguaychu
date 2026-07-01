@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { SearchPage } from "@/components/SearchPage";
+import { PropertyStats } from "@/components/PropertyStats";
 
 function SearchPageFallback() {
   return (
@@ -14,8 +15,14 @@ function SearchPageFallback() {
 
 export default function Home() {
   return (
-    <Suspense fallback={<SearchPageFallback />}>
-      <SearchPage />
-    </Suspense>
+    <>
+      {/* SSR stats block — visible to AI crawlers without JS */}
+      <Suspense fallback={null}>
+        <PropertyStats />
+      </Suspense>
+      <Suspense fallback={<SearchPageFallback />}>
+        <SearchPage />
+      </Suspense>
+    </>
   );
 }

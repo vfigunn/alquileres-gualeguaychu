@@ -272,11 +272,11 @@ export function SearchPage() {
         {/* Hero / Search Minimal */}
         <div className="w-full bg-surface-container-lowest rounded-2xl p-lg border border-outline-variant/30 flex flex-col items-center text-center">
           <h1 className="font-ebGaramond text-display-lg text-primary mb-4">
-            Descubra Gualeguaychú
+            Todas las propiedades en alquiler de Gualeguaychú
           </h1>
-          <p className="font-manrope text-body-lg text-on-surface-variant mb-8 max-w-2xl">
-            Propiedades residenciales exclusivas seleccionadas para quienes buscan confort, diseño
-            y ubicación privilegiada en la ciudad.
+          <p className="font-manrope text-body-lg text-on-surface-variant mb-4 max-w-2xl">
+            Centralizamos todas las propiedades en alquiler de las inmobiliarias de
+            Gualeguaychú en un solo portal. Departamentos, casas, locales y más.
           </p>
           <div className="relative w-full max-w-xl group">
             <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-gold transition-colors">

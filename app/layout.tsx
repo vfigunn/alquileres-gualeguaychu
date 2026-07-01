@@ -8,11 +8,11 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://alquileresgualeguaychu.com.ar"),
   title: {
-    default: "Alquileres Gualeguaychú | Encontrá todos los alquileres de Gualeguaychú en un solo lugar",
+    default: "Alquileres Gualeguaychú | Todas las propiedades en alquiler en un solo lugar",
     template: "%s | Alquileres Gualeguaychú",
   },
   description:
-    "Encontrá todos los alquileres de Gualeguaychú en un solo lugar. Buscá departamentos, casas, locales y más de todas las inmobiliarias de la ciudad.",
+    "Encontrá todas las propiedades en alquiler de Gualeguaychú en un solo lugar. Centralizamos departamentos, casas, locales y más de todas las inmobiliarias de la ciudad.",
   keywords: [
     "alquileres gualeguaychú",
     "inmobiliarias gualeguaychú",
@@ -32,9 +32,9 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Alquileres Gualeguaychú" }],
   openGraph: {
-    title: "Alquileres Gualeguaychú | Encontrá todos los alquileres en un solo lugar",
+    title: "Alquileres Gualeguaychú | Todas las propiedades en alquiler en un solo lugar",
     description:
-      "Encontrá todos los alquileres de Gualeguaychú en un solo lugar. Buscá departamentos, casas, locales y más de todas las inmobiliarias.",
+      "Encontrá todas las propiedades en alquiler de Gualeguaychú en un solo lugar. Centralizamos departamentos, casas, locales y más de todas las inmobiliarias.",
     url: "https://alquileresgualeguaychu.com.ar",
     siteName: "Alquileres Gualeguaychú",
     locale: "es_AR",
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Alquileres Gualeguaychú",
     description:
-      "Encontrá todos los alquileres de Gualeguaychú en un solo lugar. Departamentos, casas, locales y más.",
+      "Encontrá todas las propiedades en alquiler de Gualeguaychú en un solo lugar. Centralizamos departamentos, casas, locales y más.",
     images: ["/og-image.jpg"],
   },
   robots: {
@@ -134,7 +134,7 @@ export default function RootLayout({
                   "@id": "https://alquileresgualeguaychu.com.ar/#website",
                   name: "Alquileres Gualeguaychú",
                   description:
-                    "Encontrá todos los alquileres de Gualeguaychú en un solo lugar. Buscá departamentos, casas, locales y más.",
+                    "Encontrá todas las propiedades en alquiler de Gualeguaychú en un solo lugar. Centralizamos departamentos, casas, locales y más.",
                   url: "https://alquileresgualeguaychu.com.ar",
                   publisher: {
                     "@type": "Organization",
