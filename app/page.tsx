@@ -20,11 +20,15 @@ export default function Home() {
       <Suspense fallback={null}>
         <PropertyStats />
       </Suspense>
-      <Suspense fallback={<SearchPageFallback />}>
-        <SearchPage />
-      </Suspense>
 
-      {/* FAQ Section — SSR, visible a usuarios y crawlers */}
+      {/* SearchPage needs flex to lay out sidebar + grid side by side on desktop */}
+      <div className="flex gap-lg w-full">
+        <Suspense fallback={<SearchPageFallback />}>
+          <SearchPage />
+        </Suspense>
+      </div>
+
+      {/* FAQ Section — SSR, visible a usuarios y crawlers. Fuera del flex para que apile verticalmente */}
       <section className="w-full max-w-container-max mx-auto px-gutter mt-16 mb-16">
         {/* JSON-LD FAQPage schema */}
         <script
