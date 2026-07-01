@@ -208,6 +208,31 @@ export function SearchPage() {
   );
   const activeTypes = new Set(filters.types);
 
+  // Dynamic H1 & description based on active filters
+  const heroLabel = useMemo(() => {
+    if (filters.types.length === 1) {
+      const plural: Record<string, string> = {
+        departamento: "Departamentos",
+        casa: "Casas",
+        local: "Locales",
+        terreno: "Terrenos",
+        ph: "PH",
+        galpon: "Galpones",
+        otro: "Otros",
+      };
+      return plural[filters.types[0]] ?? filters.types[0].charAt(0).toUpperCase() + filters.types[0].slice(1);
+    }
+    return null;
+  }, [filters.types]);
+
+  const heroTitle = heroLabel
+    ? `${heroLabel} en alquiler en Gualeguaychú`
+    : "Todas las propiedades en alquiler de Gualeguaychú";
+
+  const heroDescription = heroLabel
+    ? `Encontrá todos los ${heroLabel.toLowerCase()} en alquiler en Gualeguaychú. Centralizamos las publicaciones de todas las inmobiliarias en un solo lugar.`
+    : "Centralizamos todas las propiedades en alquiler de las inmobiliarias de Gualeguaychú en un solo portal. Departamentos, casas, locales y más.";
+
   const toggleType = (t: PropertyType) => {
     const next = new Set(filters.types);
     next.has(t) ? next.delete(t) : next.add(t);
@@ -272,11 +297,10 @@ export function SearchPage() {
         {/* Hero / Search Minimal */}
         <div className="w-full bg-surface-container-lowest rounded-2xl p-lg border border-outline-variant/30 flex flex-col items-center text-center">
           <h1 className="font-ebGaramond text-display-lg text-primary mb-4">
-            Todas las propiedades en alquiler de Gualeguaychú
+            {heroTitle}
           </h1>
           <p className="font-manrope text-body-lg text-on-surface-variant mb-4 max-w-2xl">
-            Centralizamos todas las propiedades en alquiler de las inmobiliarias de
-            Gualeguaychú en un solo portal. Departamentos, casas, locales y más.
+            {heroDescription}
           </p>
           <div className="relative w-full max-w-xl group">
             <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-gold transition-colors">
