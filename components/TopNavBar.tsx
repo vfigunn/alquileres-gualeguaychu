@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 const CATEGORIES = [
   { href: "/departamentos", label: "Departamentos" },
@@ -23,6 +23,19 @@ export default function TopNavBar() {
     setIsCategoriesOpen(false);
   };
 
+  const categoriesRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (categoriesRef.current && !categoriesRef.current.contains(event.target as Node)) {
+        setIsCategoriesOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
     <>
       <header className="bg-surface/80 backdrop-blur-xl fixed top-0 w-full z-50 border-b border-outline-variant/30">
@@ -43,9 +56,8 @@ export default function TopNavBar() {
 
             {/* Categories Dropdown */}
             <div
+              ref={categoriesRef}
               className="relative"
-              onMouseEnter={() => setIsCategoriesOpen(true)}
-              onMouseLeave={() => setIsCategoriesOpen(false)}
             >
               <button
                 className="font-manrope text-label-md text-on-surface-variant hover:text-gold hover:bg-[#D4AF37]/10 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 ease-out py-2 px-5 rounded-full flex items-center gap-1"
