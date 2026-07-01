@@ -92,13 +92,13 @@ export async function generateMetadata({
     title: `${title} — ${price}`,
     description,
     alternates: {
-      canonical: `https://www.alquileresgualeguaychu.com/propiedad/${p.slug}`,
+      canonical: `https://www.alquileresgualeguaychu.com.ar/propiedad/${p.slug}`,
     },
     openGraph: {
       title: `${title} — ${price}`,
       description,
-      images: p.images.length > 0 ? [p.images[0]] : [],
-      url: `https://www.alquileresgualeguaychu.com/propiedad/${p.slug}`,
+      images: p.images.length > 0 ? [p.images[0]] : ["/og-image.jpg"],
+      url: `https://www.alquileresgualeguaychu.com.ar/propiedad/${p.slug}`,
       type: "website",
     },
   };
@@ -274,7 +274,7 @@ export default async function PropiedadPage({
             "@type": "RealEstateListing",
             name: p.title ?? "Propiedad en alquiler",
             description: p.description?.slice(0, 300) ?? "",
-            url: `https://www.alquileresgualeguaychu.com/propiedad/${p.slug}`,
+            url: `https://www.alquileresgualeguaychu.com.ar/propiedad/${p.slug}`,
             image: p.images.length > 0 ? p.images[0] : undefined,
             datePosted: p.published_at ?? p.first_seen_at,
             offers: {

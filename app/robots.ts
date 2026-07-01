@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/api/", "/cookies", "/privacidad", "/terminos"],
       },
     ],
-    sitemap: "https://www.alquileresgualeguaychu.com/sitemap.xml",
+    sitemap: "https://www.alquileresgualeguaychu.com.ar/sitemap.xml",
   };
 }

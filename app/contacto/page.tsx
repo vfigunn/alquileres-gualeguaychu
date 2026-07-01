@@ -4,7 +4,12 @@ import { ContactForm } from "@/components/ContactForm";
 export const metadata: Metadata = {
   title: "Contacto | Alquileres Gualeguaychú",
   description:
-    "Comunicate con nuestro equipo de asesores para una atención personalizada.",
+    "Comunicate con nuestro equipo para integrar tu inmobiliaria al buscador de alquileres de Gualeguaychú. Departamentos, casas y locales en un solo portal.",
+  openGraph: {
+    title: "Contacto | Alquileres Gualeguaychú",
+    description:
+      "Comunicate con nuestro equipo para integrar tu inmobiliaria al buscador de alquileres de Gualeguaychú. Departamentos, casas y locales en un solo portal.",
+  },
 };
 
 export default function ContactoPage() {

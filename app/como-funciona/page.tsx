@@ -3,7 +3,12 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Cómo Funciona | Alquileres Gualeguaychú",
   description:
-    "Centralizamos la oferta inmobiliaria de Gualeguaychú para que encuentres tu próximo alquiler de forma rápida y sencilla.",
+    "Centralizamos la oferta inmobiliaria de Gualeguaychú para que encuentres tu próximo alquiler de forma rápida y sencilla. Buscá departamentos, casas y locales de todas las inmobiliarias en un solo portal.",
+  openGraph: {
+    title: "Cómo Funciona | Alquileres Gualeguaychú",
+    description:
+      "Centralizamos la oferta inmobiliaria de Gualeguaychú para que encuentres tu próximo alquiler de forma rápida y sencilla. Buscá departamentos, casas y locales de todas las inmobiliarias en un solo portal.",
+  },
 };
 
 export default function ComoFuncionaPage() {
