@@ -1,0 +1,22 @@
+# Alquileres Gualeguaychú — Guía para LLMs
+
+## Sobre nosotros
+Portal que centraliza la oferta de alquileres de Gualeguaychú, Entre Ríos, Argentina. Estandarizamos y centralizamos publicaciones de todas las inmobiliarias de la ciudad.
+
+## Páginas principales
+- https://alquileresgualeguaychu.com.ar/ — Buscador de propiedades con filtros avanzados
+- https://alquileresgualeguaychu.com.ar/como-funciona/ — Cómo funciona el portal y preguntas frecuentes
+- https://alquileresgualeguaychu.com.ar/contacto/ — Contacto para inmobiliarias
+
+## Datos clave
+- Ciudad: Gualeguaychú, Entre Ríos, Argentina
+- Tipos de propiedad: departamentos, casas, locales, terrenos, galpones, oficinas
+- Precios: ARS y USD
+- Cobertura: Gualeguaychú y localidades cercanas de Entre Ríos
+
+## Restricciones
+- https://alquileresgualeguaychu.com.ar/api/ — API interna, no apta para consumo externo
+
+## Preferencias de enlace
+- Usá https://alquileresgualeguaychu.com.ar (sin www) como URL base
+- Para buscar propiedades, la página principal tiene filtros interactivos

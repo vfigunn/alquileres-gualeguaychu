@@ -92,14 +92,22 @@ export async function generateMetadata({
     title: `${title} — ${price}`,
     description,
     alternates: {
-      canonical: `https://www.alquileresgualeguaychu.com.ar/propiedad/${p.slug}`,
+      canonical: `https://alquileresgualeguaychu.com.ar/propiedad/${p.slug}`,
     },
     openGraph: {
       title: `${title} — ${price}`,
       description,
       images: p.images.length > 0 ? [p.images[0]] : ["/og-image.jpg"],
-      url: `https://www.alquileresgualeguaychu.com.ar/propiedad/${p.slug}`,
+      url: `https://alquileresgualeguaychu.com.ar/propiedad/${p.slug}`,
       type: "website",
+      siteName: "Alquileres Gualeguaychú",
+      locale: "es_AR",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${title} — ${price}`,
+      description,
+      images: p.images.length > 0 ? [p.images[0]] : ["/og-image.jpg"],
     },
   };
 }
@@ -271,35 +279,71 @@ export default async function PropiedadPage({
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "RealEstateListing",
-            name: p.title ?? "Propiedad en alquiler",
-            description: p.description?.slice(0, 300) ?? "",
-            url: `https://www.alquileresgualeguaychu.com.ar/propiedad/${p.slug}`,
-            image: p.images.length > 0 ? p.images[0] : undefined,
-            datePosted: p.published_at ?? p.first_seen_at,
-            offers: {
-              "@type": "Offer",
-              price: p.price_ars ?? p.price_usd ?? 0,
-              priceCurrency: p.currency ?? "ARS",
-              availability: "https://schema.org/InStock",
-            },
-            address: p.address
-              ? {
-                  "@type": "PostalAddress",
-                  streetAddress: p.address,
-                  addressLocality: "Gualeguaychú",
-                  addressRegion: "Entre Ríos",
-                  addressCountry: "AR",
-                }
-              : undefined,
-            numberOfRooms: p.rooms ?? undefined,
-            floorSize: p.area_total
-              ? {
-                  "@type": "QuantitativeValue",
-                  value: p.area_total,
-                  unitCode: "MTK",
-                }
-              : undefined,
+            "@graph": [
+              {
+                "@type": "BreadcrumbList",
+                "@id": `https://alquileresgualeguaychu.com.ar/propiedad/${p.slug}#breadcrumb`,
+                itemListElement: [
+                  {
+                    "@type": "ListItem",
+                    position: 1,
+                    name: "Inicio",
+                    item: "https://alquileresgualeguaychu.com.ar/",
+                  },
+                  {
+                    "@type": "ListItem",
+                    position: 2,
+                    name: p.property_type
+                      ? `${p.property_type.charAt(0).toUpperCase() + p.property_type.slice(1)}s`
+                      : "Propiedades",
+                    item: "https://alquileresgualeguaychu.com.ar/",
+                  },
+                  {
+                    "@type": "ListItem",
+                    position: 3,
+                    name: p.title ?? "Propiedad en alquiler",
+                  },
+                ],
+              },
+              {
+                "@type": "RealEstateListing",
+                "@id": `https://alquileresgualeguaychu.com.ar/propiedad/${p.slug}#listing`,
+                name: p.title ?? "Propiedad en alquiler",
+                description: p.description?.slice(0, 300) ?? "",
+                url: `https://alquileresgualeguaychu.com.ar/propiedad/${p.slug}`,
+                image: p.images.length > 0 ? p.images : undefined,
+                datePosted: p.published_at ?? p.first_seen_at,
+                numberOfRooms: p.rooms ?? undefined,
+                numberOfBedrooms: p.bedrooms ?? undefined,
+                numberOfBathrooms: p.bathrooms ?? undefined,
+                floorSize: p.area_total
+                  ? {
+                      "@type": "QuantitativeValue",
+                      value: p.area_total,
+                      unitCode: "MTK",
+                    }
+                  : undefined,
+                offers: {
+                  "@type": "Offer",
+                  price: p.price_ars ?? p.price_usd ?? undefined,
+                  priceCurrency: p.currency ?? "ARS",
+                  availability: "https://schema.org/InStock",
+                },
+                address: p.address
+                  ? {
+                      "@type": "PostalAddress",
+                      streetAddress: p.address,
+                      addressLocality: p.neighborhood ?? "Gualeguaychú",
+                      addressRegion: "Entre Ríos",
+                      addressCountry: "AR",
+                    }
+                  : undefined,
+                mainEntityOfPage: {
+                  "@type": "WebPage",
+                  "@id": `https://alquileresgualeguaychu.com.ar/propiedad/${p.slug}`,
+                },
+              },
+            ],
           }),
         }}
       />

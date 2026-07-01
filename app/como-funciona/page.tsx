@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Cómo Funciona | Alquileres Gualeguaychú",
+  title: "Cómo Funciona",
   description:
     "Centralizamos la oferta inmobiliaria de Gualeguaychú para que encuentres tu próximo alquiler de forma rápida y sencilla. Buscá departamentos, casas y locales de todas las inmobiliarias en un solo portal.",
   openGraph: {
@@ -14,6 +14,50 @@ export const metadata: Metadata = {
 export default function ComoFuncionaPage() {
   return (
     <div className="w-full flex flex-col min-w-0">
+      {/* JSON-LD FAQPage Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: [
+              {
+                "@type": "Question",
+                name: "¿Ustedes son una inmobiliaria?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "No, somos un portal agregador. Nuestro objetivo es recopilar y estandarizar las publicaciones de las distintas inmobiliarias de Gualeguaychú en un solo lugar para facilitar la búsqueda. Todas las gestiones de alquiler se realizan directamente con la inmobiliaria responsable de cada propiedad.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "¿Tengo que pagar para buscar propiedades?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "No, el uso de nuestra plataforma es completamente gratuito para los usuarios que buscan alquileres.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "¿Puedo publicar mi propiedad como dueño directo?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Por el momento, solo agregamos propiedades publicadas por inmobiliarias registradas de Gualeguaychú para garantizar la seguridad y profesionalidad de las publicaciones.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "Soy Inmobiliaria, ¿cómo agrego mis propiedades?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Para que sus propiedades aparezcan en nuestro portal, comuníquese con nosotros a través de la página de Contacto. Realizaremos una integración automatizada para que su catálogo se actualice diariamente en nuestro sitio sin esfuerzo manual.",
+                },
+              },
+            ],
+          }),
+        }}
+      />
       {/* Hero Section */}
       <section className="py-xl text-center md:text-left md:flex md:items-center md:gap-xl w-full">
         <div className="md:w-1/2">

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ContactForm } from "@/components/ContactForm";
 
 export const metadata: Metadata = {
-  title: "Contacto | Alquileres Gualeguaychú",
+  title: "Contacto",
   description:
     "Comunicate con nuestro equipo para integrar tu inmobiliaria al buscador de alquileres de Gualeguaychú. Departamentos, casas y locales en un solo portal.",
   openGraph: {

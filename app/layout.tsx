@@ -6,7 +6,7 @@ import TopNavBar from "@/components/TopNavBar";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.alquileresgualeguaychu.com.ar"),
+  metadataBase: new URL("https://alquileresgualeguaychu.com.ar"),
   title: {
     default: "Alquileres Gualeguaychú | Encontrá todos los alquileres de Gualeguaychú en un solo lugar",
     template: "%s | Alquileres Gualeguaychú",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     title: "Alquileres Gualeguaychú | Encontrá todos los alquileres en un solo lugar",
     description:
       "Encontrá todos los alquileres de Gualeguaychú en un solo lugar. Buscá departamentos, casas, locales y más de todas las inmobiliarias.",
-    url: "https://www.alquileresgualeguaychu.com.ar",
+    url: "https://alquileresgualeguaychu.com.ar",
     siteName: "Alquileres Gualeguaychú",
     locale: "es_AR",
     type: "website",
@@ -67,7 +67,7 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: "https://www.alquileresgualeguaychu.com.ar",
+    canonical: "https://alquileresgualeguaychu.com.ar",
   },
   icons: {
     icon: [
@@ -93,34 +93,64 @@ export default function RootLayout({
   return (
     <html lang="es" className="light">
       <head>
+        <link rel="preconnect" href="https://static.tokkobroker.com" />
+        <link rel="dns-prefetch" href="https://static.tokkobroker.com" />
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Manrope:wght@200..800&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body-md text-body-md antialiased min-h-screen flex flex-col bg-background text-on-background overflow-x-hidden">
-        {/* JSON-LD Organization */}
+        {/* JSON-LD Structured Data */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "WebSite",
-              name: "Alquileres Gualeguaychú",
-              description:
-                "Encontrá todos los alquileres de Gualeguaychú en un solo lugar. Buscá departamentos, casas, locales y más.",
-              url: "https://www.alquileresgualeguaychu.com.ar",
-              areaServed: {
-                "@type": "City",
-                name: "Gualeguaychú",
-                containedInPlace: {
-                  "@type": "State",
-                  name: "Entre Ríos",
+              "@graph": [
+                {
+                  "@type": "Organization",
+                  "@id": "https://alquileresgualeguaychu.com.ar/#organization",
+                  name: "Alquileres Gualeguaychú",
+                  url: "https://alquileresgualeguaychu.com.ar",
+                  logo: "https://alquileresgualeguaychu.com.ar/ag-logo-horizontal.png",
+                  description:
+                    "Portal que centraliza la oferta de alquileres de Gualeguaychú, Entre Ríos, Argentina.",
+                  areaServed: {
+                    "@type": "City",
+                    name: "Gualeguaychú",
+                    containedInPlace: {
+                      "@type": "State",
+                      name: "Entre Ríos",
+                    },
+                  },
+                  contactPoint: {
+                    "@type": "ContactPoint",
+                    contactType: "customer service",
+                    url: "https://alquileresgualeguaychu.com.ar/contacto",
+                    email: "alquileresgualeguaychu@protonmail.com",
+                  },
                 },
-              },
-              contactPoint: {
-                "@type": "ContactPoint",
-                contactType: "customer service",
-                url: "https://www.alquileresgualeguaychu.com.ar/contacto",
-              },
+                {
+                  "@type": "WebSite",
+                  "@id": "https://alquileresgualeguaychu.com.ar/#website",
+                  name: "Alquileres Gualeguaychú",
+                  description:
+                    "Encontrá todos los alquileres de Gualeguaychú en un solo lugar. Buscá departamentos, casas, locales y más.",
+                  url: "https://alquileresgualeguaychu.com.ar",
+                  publisher: {
+                    "@type": "Organization",
+                    "@id": "https://alquileresgualeguaychu.com.ar/#organization",
+                  },
+                  inLanguage: "es-AR",
+                  potentialAction: {
+                    "@type": "SearchAction",
+                    target: {
+                      "@type": "EntryPoint",
+                      urlTemplate: "https://alquileresgualeguaychu.com.ar/?q={search_term_string}",
+                    },
+                    "query-input": "required name=search_term_string",
+                  },
+                },
+              ],
             }),
           }}
         />
